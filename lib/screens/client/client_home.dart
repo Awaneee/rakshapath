@@ -3,6 +3,7 @@ import 'client_screens/dashboard.dart';
 import 'client_screens/map_view.dart';
 import 'client_screens/profile.dart';
 import 'client_screens/settings.dart';
+import 'client_screens/sos_view.dart';
 
 class ClientHome extends StatefulWidget {
   @override
@@ -15,6 +16,7 @@ class _ClientHomeState extends State<ClientHome> {
   final List<Widget> _screens = [
     ClientHomeDashboard(),
     ClientMapView(),
+    ClientSOSView(),
     ClientProfile(),
     ClientSettings(),
   ];
@@ -25,7 +27,8 @@ class _ClientHomeState extends State<ClientHome> {
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title: Text('Rakshapath - Tourist', style: TextStyle(color: Colors.white)),
+        title:
+            Text('Rakshapath - Tourist', style: TextStyle(color: Colors.white)),
         iconTheme: IconThemeData(color: Colors.white),
         flexibleSpace: Container(
           decoration: BoxDecoration(
@@ -48,22 +51,16 @@ class _ClientHomeState extends State<ClientHome> {
         onTap: _onTap,
         type: BottomNavigationBarType.fixed,
         items: [
-          BottomNavigationBarItem(icon: Icon(Icons.home_outlined), label: 'Home'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.home_outlined), label: 'Home'),
           BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
-          BottomNavigationBarItem(icon: Icon(Icons.person_outline), label: 'Profile'),
-          BottomNavigationBarItem(icon: Icon(Icons.settings_outlined), label: 'Settings'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.report_problem_outlined), label: 'SOS'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.person_outline), label: 'Profile'),
+          BottomNavigationBarItem(
+              icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ],
-      ),
-      floatingActionButton: FloatingActionButton.extended(
-        onPressed: () {
-          // Quick SOS global action
-          ScaffoldMessenger.of(context).showSnackBar(
-            SnackBar(content: Text('Global SOS: Help is on the way!')),
-          );
-        },
-        label: Text('SOS'),
-        icon: Icon(Icons.warning),
-        backgroundColor: Colors.redAccent,
       ),
     );
   }

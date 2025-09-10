@@ -158,7 +158,7 @@ class _SplashScreenState extends State<SplashScreen>
           key: const ValueKey('Welcome'),
           style: TextStyle(
             fontSize: 36,
-            fontWeight: FontWeight.w300,
+            fontWeight: FontWeight.w500,
             color: _textColor, // ✅ Use dark text color
             fontFamily: 'Montserrat',
           ),
