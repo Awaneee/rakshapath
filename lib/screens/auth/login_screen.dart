@@ -55,12 +55,13 @@ class _LoginScreenState extends State<LoginScreen> {
                 topRight: Radius.circular(30),
               ),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 10, sigmaY: 10),
+                filter: ImageFilter.blur(sigmaX: 7, sigmaY: 0),
                 child: Container(
                   width: double.infinity,
-                  height: size.height * 0.4,
+                  height: size.height * 0.45,
                   decoration: BoxDecoration(
                     color: Colors.white.withOpacity(0.2),
+                    border: Border.all(width: 0, color: Colors.transparent),
                   ),
                   child: Center(
                     child: Container(

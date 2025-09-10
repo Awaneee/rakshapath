@@ -23,12 +23,20 @@ class ClientHomeDashboard extends StatelessWidget {
   ];
 
   void _panicAction(BuildContext context) {
-    ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Panic Button Pressed! Authorities notified.')));
+    ScaffoldMessenger.of(context).showSnackBar(SnackBar(
+        content: Text(
+          'Panic Button Pressed! Authorities notified.',
+          style: TextStyle(
+            color: Colors.black,
+          ),
+        ),
+        backgroundColor: Theme.of(context).scaffoldBackgroundColor));
   }
 
   @override
   Widget build(BuildContext context) {
+    final screenWidth = MediaQuery.of(context).size.width;
+    final screenHeight = MediaQuery.of(context).size.height;
     return ListView(
       padding: EdgeInsets.all(16),
       children: [
@@ -76,7 +84,8 @@ class ClientHomeDashboard extends StatelessWidget {
                         color: Colors.white.withOpacity(0.2),
                         borderRadius: BorderRadius.circular(12),
                       ),
-                      child: Icon(Icons.flight_takeoff, color: Colors.white, size: 28),
+                      child: Icon(Icons.flight_takeoff,
+                          color: Colors.white, size: 28),
                     ),
                     SizedBox(width: 12),
                     Expanded(
@@ -85,10 +94,10 @@ class ClientHomeDashboard extends StatelessWidget {
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
                           Text(
-                            'Plan safer trips', 
+                            'Plan safer Trips',
                             style: TextStyle(
-                              color: Colors.white, 
-                              fontSize: 18, 
+                              color: Colors.white,
+                              fontSize: 20,
                               fontWeight: FontWeight.w800,
                               shadows: [
                                 Shadow(
@@ -101,18 +110,11 @@ class ClientHomeDashboard extends StatelessWidget {
                           ),
                           SizedBox(height: 6),
                           Text(
-                            'Live safety insights and nearby help', 
+                            'Live safety insights and nearby help',
                             style: TextStyle(
                               color: Colors.white.withOpacity(0.95),
-                              fontSize: 14,
-                              fontWeight: FontWeight.w500,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.2),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 1,
-                                ),
-                              ],
+                              fontSize: 15,
+                              fontWeight: FontWeight.w600,
                             ),
                           ),
                         ],
@@ -130,7 +132,6 @@ class ClientHomeDashboard extends StatelessWidget {
             Expanded(
               child: _overviewCard(
                 title: 'Safety Score',
-                subtitle: 'Based on travel patterns & alerts',
                 trailing: Text('85%',
                     style: TextStyle(
                         fontSize: 20,
@@ -144,7 +145,6 @@ class ClientHomeDashboard extends StatelessWidget {
             Expanded(
               child: _overviewCard(
                 title: 'Nearby Services',
-                subtitle: 'Police • Hospital',
                 trailing: Icon(Icons.arrow_forward_ios, size: 18),
                 icon: Icons.room_service_outlined,
                 color: Colors.orangeAccent,
@@ -172,7 +172,9 @@ class ClientHomeDashboard extends StatelessWidget {
                 shape: RoundedRectangleBorder(
                     borderRadius: BorderRadius.circular(12)),
               ),
-              child: Text('SOS', style: TextStyle(fontWeight: FontWeight.bold, color: Colors.white)),
+              child: Text('SOS',
+                  style: TextStyle(
+                      fontWeight: FontWeight.bold, color: Colors.white)),
             ),
           ),
         ),
@@ -180,7 +182,9 @@ class ClientHomeDashboard extends StatelessWidget {
         Text('Popular near you 🔥',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
         SizedBox(height: 12),
-        ...recommendations.map((r) => _placeCard(r, context)).toList(),
+        ...recommendations
+            .map((r) => _placeCard(r, context, screenWidth, screenHeight))
+            .toList(),
         SizedBox(height: 18),
         Text('Quick SOS Contacts',
             style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
@@ -194,7 +198,6 @@ class ClientHomeDashboard extends StatelessWidget {
 
   Widget _overviewCard(
       {required String title,
-      required String subtitle,
       required Widget trailing,
       required IconData icon,
       required Color color}) {
@@ -214,9 +217,6 @@ class ClientHomeDashboard extends StatelessWidget {
                   crossAxisAlignment: CrossAxisAlignment.start,
                   children: [
                     Text(title, style: TextStyle(fontWeight: FontWeight.bold)),
-                    SizedBox(height: 6),
-                    Text(subtitle,
-                        style: TextStyle(color: Colors.black54, fontSize: 12)),
                   ]),
             ),
             trailing,
@@ -226,7 +226,8 @@ class ClientHomeDashboard extends StatelessWidget {
     );
   }
 
-  Widget _placeCard(Map<String, String> r, BuildContext context) {
+  Widget _placeCard(
+      Map<String, String> r, BuildContext context, screenWidth, screenHeight) {
     return Card(
       elevation: 4,
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(16)),
@@ -245,12 +246,13 @@ class ClientHomeDashboard extends StatelessWidget {
           children: [
             ClipRRect(
               borderRadius: BorderRadius.horizontal(left: Radius.circular(16)),
-              child: Container(
-                width: 120,
-                height: 90,
-                color: Colors.grey[200],
-                child: Image.asset(r['img'] ?? 'assets/sample1.jpg',
-                    fit: BoxFit.cover),
+              child: SizedBox(
+                width: screenWidth * 0.4,
+                height: 125,
+                child: Image.asset(
+                  r['img'] ?? 'assets/sample1.jpg',
+                  fit: BoxFit.cover,
+                ),
               ),
             ),
             Expanded(
@@ -274,7 +276,9 @@ class ClientHomeDashboard extends StatelessWidget {
                           shape: StadiumBorder(),
                         ),
                         Text(r['price']!,
-                            style: TextStyle(fontWeight: FontWeight.bold, color: Color(0xFF0284C7))),
+                            style: TextStyle(
+                                fontWeight: FontWeight.bold,
+                                color: Color(0xFF0284C7))),
                       ],
                     )
                   ],
@@ -305,7 +309,9 @@ class ClientHomeDashboard extends StatelessWidget {
         ElevatedButton(
           onPressed: () {},
           style: ElevatedButton.styleFrom(backgroundColor: Color(0xFF0284C7)),
-          child: Center(child: Text('Book / Save', style: TextStyle(color: Colors.white))),
+          child: Center(
+              child:
+                  Text('Book / Save', style: TextStyle(color: Colors.white))),
         )
       ]),
     );
