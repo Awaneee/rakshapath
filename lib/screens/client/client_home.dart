@@ -78,7 +78,13 @@ class _ClientHomeState extends State<ClientHome> {
         backgroundColor: Colors.transparent,
         elevation: 0,
       ),
-      body: _screens[_selectedIndex],
+      // body: _screens[_selectedIndex],
+      body: Container(
+        decoration: BoxDecoration(
+          color: Colors.white,
+        ),
+        child: _screens[_selectedIndex],
+      ),
       bottomNavigationBar: BottomNavigationBar(
         backgroundColor: Colors.white,
         selectedItemColor: Color(0xFF0284C7),
