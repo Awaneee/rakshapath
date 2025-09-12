@@ -23,7 +23,7 @@ class AdminTouristDetails extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha:0.1),
                 blurRadius: 8,
                 offset: Offset(0, 4),
               ),
@@ -47,7 +47,7 @@ class AdminTouristDetails extends StatelessWidget {
                   Text(
                     '${tourists.length} registered tourists',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha:0.9),
                       fontSize: 14,
                     ),
                   ),
@@ -77,7 +77,7 @@ class AdminTouristDetails extends StatelessWidget {
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: Color(0xFF0284C7).withOpacity(0.1),
+                  color: Color(0xFF0284C7).withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Icon(Icons.person, color: Color(0xFF0284C7), size: 24),
@@ -145,7 +145,7 @@ class AdminTouristDetails extends StatelessWidget {
                 Container(
                   padding: EdgeInsets.all(12),
                   decoration: BoxDecoration(
-                    color: Color(0xFF0284C7).withOpacity(0.1),
+                    color: Color(0xFF0284C7).withValues(alpha:0.1),
                     borderRadius: BorderRadius.circular(12),
                   ),
                   child: Icon(Icons.person, color: Color(0xFF0284C7), size: 24),

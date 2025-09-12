@@ -49,7 +49,7 @@ class ClientProfile extends StatelessWidget {
       children: [
         CircleAvatar(
           radius: 36, 
-          backgroundColor: Color(0xFF0284C7).withOpacity(0.1), 
+          backgroundColor: Color(0xFF0284C7).withValues(alpha:0.1), 
           child: Icon(Icons.person, size: 36, color: Color(0xFF0284C7))
         ),
         SizedBox(width: 12),

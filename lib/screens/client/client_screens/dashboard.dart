@@ -37,162 +37,166 @@ class ClientHomeDashboard extends StatelessWidget {
   Widget build(BuildContext context) {
     final screenWidth = MediaQuery.of(context).size.width;
     final screenHeight = MediaQuery.of(context).size.height;
-    return ListView(
-      padding: EdgeInsets.all(16),
-      children: [
-        // Header banner matching theme
-        Container(
-          height: 120,
-          decoration: BoxDecoration(
-            borderRadius: BorderRadius.circular(16),
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF06B6D4), Color(0xFF0284C7)],
-            ),
-            boxShadow: [
-              BoxShadow(
-                color: Colors.black.withOpacity(0.1),
-                blurRadius: 8,
-                offset: Offset(0, 4),
-              ),
-            ],
-          ),
-          child: Stack(
-            children: [
-              // Subtle overlay for better text contrast
-              Container(
-                decoration: BoxDecoration(
-                  borderRadius: BorderRadius.circular(16),
-                  gradient: LinearGradient(
-                    begin: Alignment.topCenter,
-                    end: Alignment.bottomCenter,
-                    colors: [
-                      Colors.transparent,
-                      Colors.black.withOpacity(0.15),
-                    ],
-                  ),
+    return SingleChildScrollView(
+      child: Padding(
+        padding: const EdgeInsets.all(8.0),
+        child: Column(
+          children: [
+            // Header banner matching theme
+            Container(
+              height: 120,
+              decoration: BoxDecoration(
+                borderRadius: BorderRadius.circular(16),
+                gradient: LinearGradient(
+                  begin: Alignment.topLeft,
+                  end: Alignment.bottomRight,
+                  colors: [Color(0xFF06B6D4), Color(0xFF0284C7)],
                 ),
+                boxShadow: [
+                  BoxShadow(
+                    color: Colors.black.withValues(alpha: 0.1),
+                    blurRadius: 8,
+                    offset: Offset(0, 4),
+                  ),
+                ],
               ),
-              Padding(
-                padding: EdgeInsets.all(16),
-                child: Row(
-                  children: [
-                    Container(
-                      padding: EdgeInsets.all(8),
-                      decoration: BoxDecoration(
-                        color: Colors.white.withOpacity(0.2),
-                        borderRadius: BorderRadius.circular(12),
-                      ),
-                      child: Icon(Icons.flight_takeoff,
-                          color: Colors.white, size: 28),
-                    ),
-                    SizedBox(width: 12),
-                    Expanded(
-                      child: Column(
-                        crossAxisAlignment: CrossAxisAlignment.start,
-                        mainAxisAlignment: MainAxisAlignment.center,
-                        children: [
-                          Text(
-                            'Plan safer Trips',
-                            style: TextStyle(
-                              color: Colors.white,
-                              fontSize: 20,
-                              fontWeight: FontWeight.w800,
-                              shadows: [
-                                Shadow(
-                                  color: Colors.black.withOpacity(0.3),
-                                  offset: Offset(0, 1),
-                                  blurRadius: 2,
-                                ),
-                              ],
-                            ),
-                          ),
-                          SizedBox(height: 6),
-                          Text(
-                            'Live safety insights and nearby help',
-                            style: TextStyle(
-                              color: Colors.white.withOpacity(0.95),
-                              fontSize: 15,
-                              fontWeight: FontWeight.w600,
-                            ),
-                          ),
+              child: Stack(
+                children: [
+                  // Subtle overlay for better text contrast
+                  Container(
+                    decoration: BoxDecoration(
+                      borderRadius: BorderRadius.circular(16),
+                      gradient: LinearGradient(
+                        begin: Alignment.topCenter,
+                        end: Alignment.bottomCenter,
+                        colors: [
+                          Colors.transparent,
+                          Colors.black.withValues(alpha: 0.15),
                         ],
                       ),
                     ),
-                  ],
+                  ),
+                  Padding(
+                    padding: EdgeInsets.all(16),
+                    child: Row(
+                      children: [
+                        Container(
+                          padding: EdgeInsets.all(8),
+                          decoration: BoxDecoration(
+                            color: Colors.white.withValues(alpha: 0.2),
+                            borderRadius: BorderRadius.circular(12),
+                          ),
+                          child: Icon(Icons.flight_takeoff,
+                              color: Colors.white, size: 28),
+                        ),
+                        SizedBox(width: 12),
+                        Expanded(
+                          child: Column(
+                            crossAxisAlignment: CrossAxisAlignment.start,
+                            mainAxisAlignment: MainAxisAlignment.center,
+                            children: [
+                              Text(
+                                'Plan safer Trips',
+                                style: TextStyle(
+                                  color: Colors.white,
+                                  fontSize: 20,
+                                  fontWeight: FontWeight.w800,
+                                  shadows: [
+                                    Shadow(
+                                      color: Colors.black.withValues(alpha: 0.3),
+                                      offset: Offset(0, 1),
+                                      blurRadius: 2,
+                                    ),
+                                  ],
+                                ),
+                              ),
+                              SizedBox(height: 6),
+                              Text(
+                                'Live safety insights and nearby help',
+                                style: TextStyle(
+                                  color: Colors.white.withValues(alpha: 0.95),
+                                  fontSize: 15,
+                                  fontWeight: FontWeight.w600,
+                                ),
+                              ),
+                            ],
+                          ),
+                        ),
+                      ],
+                    ),
+                  ),
+                ],
+              ),
+            ),
+            SizedBox(height: 16),
+            Row(
+              children: [
+                Expanded(
+                  child: _overviewCard(
+                    title: 'Safety Score',
+                    trailing: Text('85%',
+                        style: TextStyle(
+                            fontSize: 20,
+                            fontWeight: FontWeight.bold,
+                            color: Color(0xFF2F382F))),
+                    icon: Icons.shield_outlined,
+                    color: Color(0xFF2F382F),
+                  ),
+                ),
+                SizedBox(width: 12),
+                Expanded(
+                  child: _overviewCard(
+                    title: 'Nearby Services',
+                    trailing: Icon(Icons.arrow_forward_ios, size: 18),
+                    icon: Icons.room_service_outlined,
+                    color: Colors.orangeAccent,
+                  ),
+                )
+              ],
+            ),
+            SizedBox(height: 18),
+            Card(
+              elevation: 6,
+              shape:
+                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              child: ListTile(
+                contentPadding: EdgeInsets.all(16),
+                leading: Icon(Icons.warning_amber_rounded,
+                    color: Colors.redAccent, size: 36),
+                title: Text('Panic Button',
+                    style: TextStyle(fontWeight: FontWeight.bold)),
+                subtitle: Text(
+                    'Press in emergency to alert police and emergency contacts'),
+                trailing: ElevatedButton(
+                  onPressed: () => _panicAction(context),
+                  style: ElevatedButton.styleFrom(
+                    backgroundColor: Color(0xFF0284C7),
+                    shape: RoundedRectangleBorder(
+                        borderRadius: BorderRadius.circular(12)),
+                  ),
+                  child: Text('SOS',
+                      style: TextStyle(
+                          fontWeight: FontWeight.bold, color: Colors.white)),
                 ),
               ),
-            ],
-          ),
-        ),
-        SizedBox(height: 16),
-        Row(
-          children: [
-            Expanded(
-              child: _overviewCard(
-                title: 'Safety Score',
-                trailing: Text('85%',
-                    style: TextStyle(
-                        fontSize: 20,
-                        fontWeight: FontWeight.bold,
-                        color: Color(0xFF2F382F))),
-                icon: Icons.shield_outlined,
-                color: Color(0xFF2F382F),
-              ),
             ),
-            SizedBox(width: 12),
-            Expanded(
-              child: _overviewCard(
-                title: 'Nearby Services',
-                trailing: Icon(Icons.arrow_forward_ios, size: 18),
-                icon: Icons.room_service_outlined,
-                color: Colors.orangeAccent,
-              ),
-            )
+            SizedBox(height: 18),
+            Text('Popular near you 🔥',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            SizedBox(height: 12),
+            ...recommendations
+                .map((r) => _placeCard(r, context, screenWidth, screenHeight))
+                .toList(),
+            SizedBox(height: 18),
+            Text('Quick SOS Contacts',
+                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            SizedBox(height: 8),
+            _contactCard('Local Police', '100', Icons.local_police),
+            SizedBox(height: 8),
+            _contactCard('Ambulance', '102', Icons.local_hospital),
           ],
         ),
-        SizedBox(height: 18),
-        Card(
-          elevation: 6,
-          shape:
-              RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
-          child: ListTile(
-            contentPadding: EdgeInsets.all(16),
-            leading: Icon(Icons.warning_amber_rounded,
-                color: Colors.redAccent, size: 36),
-            title: Text('Panic Button',
-                style: TextStyle(fontWeight: FontWeight.bold)),
-            subtitle: Text(
-                'Press in emergency to alert police and emergency contacts'),
-            trailing: ElevatedButton(
-              onPressed: () => _panicAction(context),
-              style: ElevatedButton.styleFrom(
-                backgroundColor: Color(0xFF0284C7),
-                shape: RoundedRectangleBorder(
-                    borderRadius: BorderRadius.circular(12)),
-              ),
-              child: Text('SOS',
-                  style: TextStyle(
-                      fontWeight: FontWeight.bold, color: Colors.white)),
-            ),
-          ),
-        ),
-        SizedBox(height: 18),
-        Text('Popular near you 🔥',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        SizedBox(height: 12),
-        ...recommendations
-            .map((r) => _placeCard(r, context, screenWidth, screenHeight))
-            .toList(),
-        SizedBox(height: 18),
-        Text('Quick SOS Contacts',
-            style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
-        SizedBox(height: 8),
-        _contactCard('Local Police', '100', Icons.local_police),
-        SizedBox(height: 8),
-        _contactCard('Ambulance', '102', Icons.local_hospital),
-      ],
+      ),
     );
   }
 
@@ -209,7 +213,7 @@ class ClientHomeDashboard extends StatelessWidget {
         child: Row(
           children: [
             CircleAvatar(
-                backgroundColor: Color(0xFF0284C7).withOpacity(0.12),
+                backgroundColor: Color(0xFF0284C7).withValues(alpha: 0.12),
                 child: Icon(icon, color: Color(0xFF0284C7))),
             SizedBox(width: 12),
             Expanded(
@@ -272,7 +276,8 @@ class ClientHomeDashboard extends StatelessWidget {
                       children: [
                         Chip(
                           label: Text('14km'),
-                          backgroundColor: Color(0xFF0284C7).withOpacity(0.1),
+                          backgroundColor:
+                              Color(0xFF0284C7).withValues(alpha: 0.1),
                           shape: StadiumBorder(),
                         ),
                         Text(r['price']!,
@@ -323,7 +328,7 @@ class ClientHomeDashboard extends StatelessWidget {
       shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(12)),
       child: ListTile(
         leading: CircleAvatar(
-            backgroundColor: Color(0xFF0284C7).withOpacity(0.12),
+            backgroundColor: Color(0xFF0284C7).withValues(alpha: 0.12),
             child: Icon(icon, color: Color(0xFF0284C7))),
         title: Text(name),
         subtitle: Text(number),

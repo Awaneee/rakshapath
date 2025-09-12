@@ -24,7 +24,7 @@ class AdminDashboardScreen extends StatelessWidget {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha:0.1),
                 blurRadius: 8,
                 offset: Offset(0, 4),
               ),
@@ -89,7 +89,7 @@ class AdminDashboardScreen extends StatelessWidget {
                     Container(
                       padding: EdgeInsets.symmetric(horizontal: 8, vertical: 4),
                       decoration: BoxDecoration(
-                        color: Color(0xFF0284C7).withOpacity(0.1),
+                        color: Color(0xFF0284C7).withValues(alpha:0.1),
                         borderRadius: BorderRadius.circular(8),
                       ),
                       child: Text(
@@ -107,15 +107,15 @@ class AdminDashboardScreen extends StatelessWidget {
                 Expanded(
                   child: Container(
                     decoration: BoxDecoration(
-                      color: Color(0xFF0284C7).withOpacity(0.05),
+                      color: Color(0xFF0284C7).withValues(alpha:0.05),
                       borderRadius: BorderRadius.circular(12),
-                      border: Border.all(color: Color(0xFF0284C7).withOpacity(0.2)),
+                      border: Border.all(color: Color(0xFF0284C7).withValues(alpha:0.2)),
                     ),
                     child: Center(
                       child: Column(
                         mainAxisAlignment: MainAxisAlignment.center,
                         children: [
-                          Icon(Icons.map, size: 80, color: Color(0xFF0284C7).withOpacity(0.6)),
+                          Icon(Icons.map, size: 80, color: Color(0xFF0284C7).withValues(alpha:0.6)),
                           SizedBox(height: 12),
                           Text(
                             'Interactive Map',
@@ -129,7 +129,7 @@ class AdminDashboardScreen extends StatelessWidget {
                           Text(
                             'Real-time tourist tracking',
                             style: TextStyle(
-                              color: Color(0xFF0284C7).withOpacity(0.7),
+                              color: Color(0xFF0284C7).withValues(alpha:0.7),
                               fontSize: 12,
                             ),
                           ),
@@ -160,7 +160,7 @@ class AdminDashboardScreen extends StatelessWidget {
       child: Container(
         padding: EdgeInsets.all(12),
         decoration: BoxDecoration(
-          color: Colors.white.withOpacity(0.2),
+          color: Colors.white.withValues(alpha:0.2),
           borderRadius: BorderRadius.circular(12),
         ),
         child: Column(
@@ -179,7 +179,7 @@ class AdminDashboardScreen extends StatelessWidget {
             Text(
               title,
               style: TextStyle(
-                color: color.withOpacity(0.9),
+                color: color.withValues(alpha:0.9),
                 fontSize: 12,
                 fontWeight: FontWeight.w500,
               ),
@@ -203,7 +203,7 @@ class AdminDashboardScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: riskColor.withOpacity(0.1),
+                color: riskColor.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(12),
               ),
               child: Icon(Icons.whatshot, color: riskColor, size: 24),
@@ -234,7 +234,7 @@ class AdminDashboardScreen extends StatelessWidget {
             Container(
               padding: EdgeInsets.symmetric(horizontal: 12, vertical: 6),
               decoration: BoxDecoration(
-                color: riskColor.withOpacity(0.1),
+                color: riskColor.withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Text(

@@ -1,5 +1,6 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
+import '../auth/storage.dart'; // ✅ import your secure storage service
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -10,21 +11,27 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
+  final storage = SecureStorageService(); // ✅ instance of storage
   bool _isLogging = false;
 
-  void _login() async {
-    final userId = _idController.text.trim().toLowerCase();
+  Future<void> _login() async {
+    final userId = _idController.text.trim();
     if (userId.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        SnackBar(content: Text('Please enter your User ID')),
+        const SnackBar(content: Text('Please enter your User ID')),
       );
       return;
     }
+
     setState(() => _isLogging = true);
-    await Future.delayed(Duration(milliseconds: 700));
+    await Future.delayed(const Duration(milliseconds: 700));
     setState(() => _isLogging = false);
 
-    if (userId.contains('admin')) {
+    // ✅ Save username
+    await storage.saveUsername(userId);
+
+    // ✅ Navigate
+    if (userId.toLowerCase().contains('admin')) {
       Navigator.pushReplacementNamed(context, '/admin');
     } else {
       Navigator.pushReplacementNamed(context, '/client');
@@ -38,7 +45,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image instead of video
+          // Background image
           SizedBox.expand(
             child: Image.asset(
               'assets/t3.jpg',
@@ -50,7 +57,7 @@ class _LoginScreenState extends State<LoginScreen> {
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
-              borderRadius: BorderRadius.only(
+              borderRadius: const BorderRadius.only(
                 topLeft: Radius.circular(30),
                 topRight: Radius.circular(30),
               ),
@@ -60,7 +67,7 @@ class _LoginScreenState extends State<LoginScreen> {
                   width: double.infinity,
                   height: size.height * 0.45,
                   decoration: BoxDecoration(
-                    color: Colors.white.withOpacity(0.2),
+                    color: Colors.white.withValues(alpha: 0.2),
                     border: Border.all(width: 0, color: Colors.transparent),
                   ),
                   child: Center(
@@ -75,7 +82,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(size.width * 0.06),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withOpacity(0.1),
+                            color: Colors.black.withValues(alpha: 0.1),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -97,32 +104,34 @@ class _LoginScreenState extends State<LoginScreen> {
                           ),
                           SizedBox(height: size.height * 0.02),
 
-                          // User ID input field with bolder, darker text styles
+                          // User ID input
                           TextField(
                             controller: _idController,
                             decoration: InputDecoration(
                               labelText: 'User ID',
-                              labelStyle: TextStyle(
+                              labelStyle: const TextStyle(
                                 color: Colors.black87,
                                 fontWeight: FontWeight.w700,
                                 fontSize: 16,
                               ),
                               hintText: 'Enter your user ID',
-                              hintStyle: TextStyle(
+                              hintStyle: const TextStyle(
                                 color: Colors.black45,
                                 fontWeight: FontWeight.w500,
                                 fontSize: 14,
                               ),
-                              prefixIcon: Icon(Icons.person_outline,
-                                  color: Colors.black54),
+                              prefixIcon: const Icon(
+                                Icons.person_outline,
+                                color: Colors.black54,
+                              ),
                               filled: true,
-                              fillColor: Color(0xFFF1F5F9),
+                              fillColor: const Color(0xFFF1F5F9),
                               border: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(14),
                                 borderSide: BorderSide.none,
                               ),
                             ),
-                            style: TextStyle(
+                            style: const TextStyle(
                               color: Colors.black87,
                               fontWeight: FontWeight.w600,
                               fontSize: 16,
@@ -136,23 +145,25 @@ class _LoginScreenState extends State<LoginScreen> {
                             child: ElevatedButton(
                               onPressed: _isLogging ? null : _login,
                               style: ElevatedButton.styleFrom(
-                                backgroundColor: Color(0xFF0284C7),
-                                padding: EdgeInsets.symmetric(vertical: 16),
+                                backgroundColor: const Color(0xFF0284C7),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
                               ),
                               child: _isLogging
-                                  ? SizedBox(
+                                  ? const SizedBox(
                                       width: 22,
                                       height: 22,
                                       child: CircularProgressIndicator(
                                         strokeWidth: 2.5,
                                         valueColor: AlwaysStoppedAnimation(
-                                            Colors.white),
+                                          Colors.white,
+                                        ),
                                       ),
                                     )
-                                  : Text(
+                                  : const Text(
                                       'Continue',
                                       style: TextStyle(
                                         color: Colors.white,

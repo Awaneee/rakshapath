@@ -22,10 +22,6 @@ class RakshapathApp extends StatelessWidget {
           background: Color(0xFFF8FAF4),
         ),
         scaffoldBackgroundColor: Color(0xFFF8FAF4),
-        appBarTheme: AppBarTheme(
-          backgroundColor: Color(0xFF2F382F),
-          elevation: 0,
-        ),
       ),
       initialRoute: '/',
       routes: {

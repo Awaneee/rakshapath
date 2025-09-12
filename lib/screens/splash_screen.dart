@@ -115,9 +115,9 @@ class _SplashScreenState extends State<SplashScreen>
                       gradient: RadialGradient(
                         colors: [
                           _primaryColor
-                              .withOpacity(0.05 * (1 - _rippleAnimation.value)),
+                              .withValues(alpha:0.05 * (1 - _rippleAnimation.value)),
                           _primaryColor
-                              .withOpacity(0.01 * (1 - _rippleAnimation.value)),
+                              .withValues(alpha:0.01 * (1 - _rippleAnimation.value)),
                         ],
                       ),
                     ),
@@ -175,10 +175,10 @@ class _SplashScreenState extends State<SplashScreen>
               height: 120,
               margin: const EdgeInsets.only(bottom: 30),
               decoration: BoxDecoration(
-                color: _primaryColor.withOpacity(0.1),
+                color: _primaryColor.withValues(alpha:0.1),
                 shape: BoxShape.circle,
                 border: Border.all(
-                  color: _primaryColor.withOpacity(0.3),
+                  color: _primaryColor.withValues(alpha:0.3),
                   width: 2,
                 ),
               ),
@@ -214,7 +214,7 @@ class _SplashScreenState extends State<SplashScreen>
               'Your Safety Companion',
               style: TextStyle(
                 fontSize: 18,
-                color: _textColor.withOpacity(0.7), // ✅ Use dark text color
+                color: _textColor.withValues(alpha:0.7), // ✅ Use dark text color
                 fontWeight: FontWeight.w400,
                 fontFamily: 'Montserrat',
               ),

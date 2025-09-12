@@ -1,17 +1,22 @@
 import 'package:flutter/material.dart';
+import 'package:google_fonts/google_fonts.dart';
 import 'client_screens/dashboard.dart';
 import 'client_screens/map_view.dart';
 import 'client_screens/profile.dart';
 import 'client_screens/settings.dart';
 import 'client_screens/sos_view.dart';
+import '../auth/storage.dart';
 
 class ClientHome extends StatefulWidget {
+  const ClientHome({super.key});
+
   @override
-  _ClientHomeState createState() => _ClientHomeState();
+  State<ClientHome> createState() => _ClientHomeState();
 }
 
 class _ClientHomeState extends State<ClientHome> {
   int _selectedIndex = 0;
+  String? _username; // <- local state variable
 
   final List<Widget> _screens = [
     ClientHomeDashboard(),
@@ -21,23 +26,54 @@ class _ClientHomeState extends State<ClientHome> {
     ClientSettings(),
   ];
 
+  final storage = SecureStorageService();
+
   void _onTap(int index) => setState(() => _selectedIndex = index);
+
+  @override
+  void initState() {
+    super.initState();
+    _loadUsername();
+  }
+
+  Future<void> _loadUsername() async {
+    final name = await storage.readUsername();
+    if (mounted) {
+      setState(() {
+        _username = name;
+      });
+    }
+  }
 
   @override
   Widget build(BuildContext context) {
     return Scaffold(
       appBar: AppBar(
-        title:
-            Text('Rakshapath - Tourist', style: TextStyle(color: Colors.white)),
+        title: Row(
+          children: [
+            Text(
+              'Hi',
+              style: GoogleFonts.roboto(
+                color: Colors.black,
+              ),
+            ),
+            Text(
+              ' $_username,',
+              style: GoogleFonts.roboto(
+                  color: Colors.black, fontWeight: FontWeight.bold),
+            ),
+            Spacer(),
+            Icon(
+              Icons.person,
+              color: Colors.black,
+            )
+          ],
+        ),
+
+        // --- MODIFICATION END ---
         iconTheme: IconThemeData(color: Colors.white),
         flexibleSpace: Container(
-          decoration: BoxDecoration(
-            gradient: LinearGradient(
-              begin: Alignment.topLeft,
-              end: Alignment.bottomRight,
-              colors: [Color(0xFF06B6D4), Color(0xFF0284C7)],
-            ),
-          ),
+          decoration: BoxDecoration(color: Colors.transparent),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,

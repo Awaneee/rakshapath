@@ -41,7 +41,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
             borderRadius: BorderRadius.circular(16),
             boxShadow: [
               BoxShadow(
-                color: Colors.black.withOpacity(0.1),
+                color: Colors.black.withValues(alpha:0.1),
                 blurRadius: 8,
                 offset: Offset(0, 4),
               ),
@@ -65,7 +65,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
                   Text(
                     '${incidents.length} total incidents',
                     style: TextStyle(
-                      color: Colors.white.withOpacity(0.9),
+                      color: Colors.white.withValues(alpha:0.9),
                       fontSize: 14,
                     ),
                   ),
@@ -104,7 +104,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
               Container(
                 padding: EdgeInsets.all(12),
                 decoration: BoxDecoration(
-                  color: statusColor.withOpacity(0.1),
+                  color: statusColor.withValues(alpha:0.1),
                   borderRadius: BorderRadius.circular(12),
                 ),
                 child: Text(
@@ -134,7 +134,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
                         Container(
                           padding: EdgeInsets.symmetric(horizontal: 8, vertical: 2),
                           decoration: BoxDecoration(
-                            color: statusColor.withOpacity(0.1),
+                            color: statusColor.withValues(alpha:0.1),
                             borderRadius: BorderRadius.circular(6),
                           ),
                           child: Text(
@@ -162,7 +162,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
               TextButton(
                 onPressed: () => _toggleStatus(i),
                 style: TextButton.styleFrom(
-                  backgroundColor: Color(0xFF0284C7).withOpacity(0.1),
+                  backgroundColor: Color(0xFF0284C7).withValues(alpha:0.1),
                   shape: RoundedRectangleBorder(borderRadius: BorderRadius.circular(8)),
                 ),
                 child: Text(
@@ -203,7 +203,7 @@ class _AdminIncidentManagementState extends State<AdminIncidentManagement> {
             Container(
               padding: EdgeInsets.all(12),
               decoration: BoxDecoration(
-                color: Color(0xFF0284C7).withOpacity(0.1),
+                color: Color(0xFF0284C7).withValues(alpha:0.1),
                 borderRadius: BorderRadius.circular(8),
               ),
               child: Row(
