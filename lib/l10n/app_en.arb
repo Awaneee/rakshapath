@@ -1,0 +1,10 @@
+{
+  "@@locale": "en",
+  "settings": "Settings",
+  "preferences": "Preferences",
+  "language": "Language",
+  "liveGpsTracking": "Live GPS Tracking",
+  "allowLiveGpsTracking": "Allow live location tracking",
+  "appVersion": "App Version",
+  "logout": "Logout"
+}

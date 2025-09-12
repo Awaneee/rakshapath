@@ -3,9 +3,9 @@ import 'package:google_fonts/google_fonts.dart';
 import 'client_screens/dashboard.dart';
 import 'client_screens/map_view.dart';
 import 'client_screens/profile.dart';
-import 'client_screens/settings.dart';
+import 'client_screens/blogs.dart';
 import 'client_screens/sos_view.dart';
-import '../auth/storage.dart';
+import '../../services/storageService.dart';
 
 class ClientHome extends StatefulWidget {
   const ClientHome({super.key});
@@ -22,8 +22,8 @@ class _ClientHomeState extends State<ClientHome> {
     ClientHomeDashboard(),
     ClientMapView(),
     ClientSOSView(),
+    ClientBlogs(),
     ClientProfile(),
-    ClientSettings(),
   ];
 
   final storage = SecureStorageService();
@@ -37,7 +37,7 @@ class _ClientHomeState extends State<ClientHome> {
   }
 
   Future<void> _loadUsername() async {
-    final name = await storage.readUsername();
+    final name = await storage.readName();
     if (mounted) {
       setState(() {
         _username = name;
@@ -71,9 +71,10 @@ class _ClientHomeState extends State<ClientHome> {
         ),
 
         // --- MODIFICATION END ---
-        iconTheme: IconThemeData(color: Colors.white),
         flexibleSpace: Container(
-          decoration: BoxDecoration(color: Colors.transparent),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 240, 239, 239),
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -81,7 +82,7 @@ class _ClientHomeState extends State<ClientHome> {
       // body: _screens[_selectedIndex],
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color.fromARGB(255, 240, 239, 239),
         ),
         child: _screens[_selectedIndex],
       ),
@@ -98,10 +99,9 @@ class _ClientHomeState extends State<ClientHome> {
           BottomNavigationBarItem(icon: Icon(Icons.map_outlined), label: 'Map'),
           BottomNavigationBarItem(
               icon: Icon(Icons.report_problem_outlined), label: 'SOS'),
+          BottomNavigationBarItem(icon: Icon(Icons.chat), label: 'Blogs'),
           BottomNavigationBarItem(
               icon: Icon(Icons.person_outline), label: 'Profile'),
-          BottomNavigationBarItem(
-              icon: Icon(Icons.settings_outlined), label: 'Settings'),
         ],
       ),
     );

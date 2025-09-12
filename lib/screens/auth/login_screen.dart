@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../auth/storage.dart'; // ✅ import your secure storage service
+import '../../services/storageService.dart';
+import '../../services/locationService.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,14 +12,45 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
-  final storage = SecureStorageService(); // ✅ instance of storage
+  final TextEditingController _passwordController = TextEditingController();
+  final storage = SecureStorageService();
+  final LocationService locationService = LocationService();
+
   bool _isLogging = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkAndSaveLocation();
+  }
+
+  /// ✅ Silently checks and saves location if possible
+  Future<void> _checkAndSaveLocation() async {
+    try {
+      final locationData = await locationService.getCurrentLocation();
+
+      if (locationData != null &&
+          locationData.latitude != null &&
+          locationData.longitude != null) {
+        await storage.saveLocation(
+          locationData.latitude!,
+          locationData.longitude!,
+        );
+      }
+      // ❌ No UI feedback if denied or error
+    } catch (_) {
+      // Ignore silently
+    }
+  }
+
+  /// ✅ Handles login flow
   Future<void> _login() async {
     final userId = _idController.text.trim();
-    if (userId.isEmpty) {
+    final password = _passwordController.text.trim();
+
+    if (userId.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your User ID')),
+        const SnackBar(content: Text('Please enter ID and password')),
       );
       return;
     }
@@ -27,14 +59,22 @@ class _LoginScreenState extends State<LoginScreen> {
     await Future.delayed(const Duration(milliseconds: 700));
     setState(() => _isLogging = false);
 
-    // ✅ Save username
-    await storage.saveUsername(userId);
+    // Read stored credentials
+    final storedUsername = await storage.readUsername();
+    final storedPassword = await storage.readPassword();
+    final storedRole = await storage.readRole();
 
-    // ✅ Navigate
-    if (userId.toLowerCase().contains('admin')) {
-      Navigator.pushReplacementNamed(context, '/admin');
+    // Check if credentials match
+    if (storedUsername == userId && storedPassword == password) {
+      if (storedRole != null && storedRole.toLowerCase() == 'admin') {
+        Navigator.pushReplacementNamed(context, '/admin');
+      } else {
+        Navigator.pushReplacementNamed(context, '/client');
+      }
     } else {
-      Navigator.pushReplacementNamed(context, '/client');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid credentials')),
+      );
     }
   }
 
@@ -45,15 +85,10 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+          // Background
           SizedBox.expand(
-            child: Image.asset(
-              'assets/t3.jpg',
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset('assets/t3.jpg', fit: BoxFit.cover),
           ),
-
-          // Glassmorphic login container
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -62,12 +97,12 @@ class _LoginScreenState extends State<LoginScreen> {
                 topRight: Radius.circular(30),
               ),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 7, sigmaY: 0),
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 0),
                 child: Container(
                   width: double.infinity,
-                  height: size.height * 0.45,
+                  height: size.height * 0.6,
                   decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
+                    color: Colors.white.withOpacity(0.12),
                     border: Border.all(width: 0, color: Colors.transparent),
                   ),
                   child: Center(
@@ -82,7 +117,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(size.width * 0.06),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
+                            color: Colors.black.withOpacity(0.1),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -92,54 +127,27 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Header text
                           Text(
-                            "Enter USER ID",
+                            "Login",
                             style: TextStyle(
-                              fontSize: size.width * 0.05,
+                              fontSize: size.width * 0.07,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                              letterSpacing: 1.2,
                             ),
                           ),
                           SizedBox(height: size.height * 0.02),
-
-                          // User ID input
                           TextField(
                             controller: _idController,
-                            decoration: InputDecoration(
-                              labelText: 'User ID',
-                              labelStyle: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                              hintText: 'Enter your user ID',
-                              hintStyle: const TextStyle(
-                                color: Colors.black45,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
-                              prefixIcon: const Icon(
-                                Icons.person_outline,
-                                color: Colors.black54,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF1F5F9),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
+                            decoration:
+                                const InputDecoration(labelText: 'Email'),
+                          ),
+                          SizedBox(height: size.height * 0.015),
+                          TextField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration:
+                                const InputDecoration(labelText: 'Password'),
                           ),
                           SizedBox(height: size.height * 0.025),
-
-                          // Continue button
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(
@@ -164,13 +172,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     )
                                   : const Text(
-                                      'Continue',
+                                      'Login',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
+                            ),
+                          ),
+                          SizedBox(height: size.height * 0.02),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/signup');
+                              },
+                              child: Text(
+                                "Don't have an account? Signup.",
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: size.width * 0.04,
+                                ),
+                              ),
                             ),
                           ),
                         ],
