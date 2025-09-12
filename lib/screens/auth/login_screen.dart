@@ -12,7 +12,8 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
-  final SecureStorageService storage = SecureStorageService();
+  final TextEditingController _passwordController = TextEditingController();
+  final storage = SecureStorageService();
   final LocationService locationService = LocationService();
 
   bool _isLogging = false;
@@ -45,24 +46,35 @@ class _LoginScreenState extends State<LoginScreen> {
   /// ✅ Handles login flow
   Future<void> _login() async {
     final userId = _idController.text.trim();
-    if (userId.isEmpty) {
+    final password = _passwordController.text.trim();
+
+    if (userId.isEmpty || password.isEmpty) {
       ScaffoldMessenger.of(context).showSnackBar(
-        const SnackBar(content: Text('Please enter your User ID')),
+        const SnackBar(content: Text('Please enter ID and password')),
       );
       return;
     }
 
     setState(() => _isLogging = true);
     await Future.delayed(const Duration(milliseconds: 700));
-
-    await storage.saveUsername(userId);
-
     setState(() => _isLogging = false);
 
-    if (userId.toLowerCase().contains('admin')) {
-      Navigator.pushReplacementNamed(context, '/admin');
+    // Read stored credentials
+    final storedUsername = await storage.readUsername();
+    final storedPassword = await storage.readPassword();
+    final storedRole = await storage.readRole();
+
+    // Check if credentials match
+    if (storedUsername == userId && storedPassword == password) {
+      if (storedRole != null && storedRole.toLowerCase() == 'admin') {
+        Navigator.pushReplacementNamed(context, '/admin');
+      } else {
+        Navigator.pushReplacementNamed(context, '/client');
+      }
     } else {
-      Navigator.pushReplacementNamed(context, '/client');
+      ScaffoldMessenger.of(context).showSnackBar(
+        const SnackBar(content: Text('Invalid credentials')),
+      );
     }
   }
 
@@ -75,13 +87,8 @@ class _LoginScreenState extends State<LoginScreen> {
         children: [
           // Background
           SizedBox.expand(
-            child: Image.asset(
-              'assets/t3.jpg',
-              fit: BoxFit.cover,
-            ),
+            child: Image.asset('assets/t3.jpg', fit: BoxFit.cover),
           ),
-
-          // Glassmorphic login card
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -93,8 +100,11 @@ class _LoginScreenState extends State<LoginScreen> {
                 filter: ImageFilter.blur(sigmaX: 7, sigmaY: 0),
                 child: Container(
                   width: double.infinity,
-                  height: size.height * 0.45,
-                  color: Colors.white.withOpacity(0.2),
+                  height: size.height * 0.6,
+                  decoration: BoxDecoration(
+                    color: Colors.white.withOpacity(0.12),
+                    border: Border.all(width: 0, color: Colors.transparent),
+                  ),
                   child: Center(
                     child: Container(
                       width: size.width * 0.82,
@@ -118,46 +128,22 @@ class _LoginScreenState extends State<LoginScreen> {
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
                           Text(
-                            "Enter USER ID",
+                            "Login",
                             style: TextStyle(
-                              fontSize: size.width * 0.05,
+                              fontSize: size.width * 0.07,
                               fontWeight: FontWeight.bold,
-                              color: Colors.black87,
-                              letterSpacing: 1.2,
                             ),
                           ),
                           SizedBox(height: size.height * 0.02),
                           TextField(
                             controller: _idController,
-                            decoration: InputDecoration(
-                              labelText: 'User ID',
-                              labelStyle: const TextStyle(
-                                color: Colors.black87,
-                                fontWeight: FontWeight.w700,
-                                fontSize: 16,
-                              ),
-                              hintText: 'Enter your user ID',
-                              hintStyle: const TextStyle(
-                                color: Colors.black45,
-                                fontWeight: FontWeight.w500,
-                                fontSize: 14,
-                              ),
-                              prefixIcon: const Icon(
-                                Icons.person_outline,
-                                color: Colors.black54,
-                              ),
-                              filled: true,
-                              fillColor: const Color(0xFFF1F5F9),
-                              border: OutlineInputBorder(
-                                borderRadius: BorderRadius.circular(14),
-                                borderSide: BorderSide.none,
-                              ),
-                            ),
-                            style: const TextStyle(
-                              color: Colors.black87,
-                              fontWeight: FontWeight.w600,
-                              fontSize: 16,
-                            ),
+                            decoration: const InputDecoration(labelText: 'User ID'),
+                          ),
+                          SizedBox(height: size.height * 0.015),
+                          TextField(
+                            controller: _passwordController,
+                            obscureText: true,
+                            decoration: const InputDecoration(labelText: 'Password'),
                           ),
                           SizedBox(height: size.height * 0.025),
                           SizedBox(
@@ -166,8 +152,7 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: _isLogging ? null : _login,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF0284C7),
-                                padding:
-                                    const EdgeInsets.symmetric(vertical: 16),
+                                padding: const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),
@@ -184,13 +169,29 @@ class _LoginScreenState extends State<LoginScreen> {
                                       ),
                                     )
                                   : const Text(
-                                      'Continue',
+                                      'Login',
                                       style: TextStyle(
                                         color: Colors.white,
                                         fontSize: 16,
                                         fontWeight: FontWeight.w700,
                                       ),
                                     ),
+                            ),
+                          ),
+                          SizedBox(height: size.height * 0.02),
+                          Center(
+                            child: GestureDetector(
+                              onTap: () {
+                                Navigator.pushNamed(context, '/signup');
+                              },
+                              child: Text(
+                                "Don't have an account? Signup.",
+                                style: TextStyle(
+                                  color: Colors.blueAccent,
+                                  fontWeight: FontWeight.w600,
+                                  fontSize: size.width * 0.04,
+                                ),
+                              ),
                             ),
                           ),
                         ],
