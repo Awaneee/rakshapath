@@ -97,7 +97,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 topRight: Radius.circular(30),
               ),
               child: BackdropFilter(
-                filter: ImageFilter.blur(sigmaX: 7, sigmaY: 0),
+                filter: ImageFilter.blur(sigmaX: 5, sigmaY: 0),
                 child: Container(
                   width: double.infinity,
                   height: size.height * 0.6,
@@ -137,13 +137,15 @@ class _LoginScreenState extends State<LoginScreen> {
                           SizedBox(height: size.height * 0.02),
                           TextField(
                             controller: _idController,
-                            decoration: const InputDecoration(labelText: 'User ID'),
+                            decoration:
+                                const InputDecoration(labelText: 'Email'),
                           ),
                           SizedBox(height: size.height * 0.015),
                           TextField(
                             controller: _passwordController,
                             obscureText: true,
-                            decoration: const InputDecoration(labelText: 'Password'),
+                            decoration:
+                                const InputDecoration(labelText: 'Password'),
                           ),
                           SizedBox(height: size.height * 0.025),
                           SizedBox(
@@ -152,7 +154,8 @@ class _LoginScreenState extends State<LoginScreen> {
                               onPressed: _isLogging ? null : _login,
                               style: ElevatedButton.styleFrom(
                                 backgroundColor: const Color(0xFF0284C7),
-                                padding: const EdgeInsets.symmetric(vertical: 16),
+                                padding:
+                                    const EdgeInsets.symmetric(vertical: 16),
                                 shape: RoundedRectangleBorder(
                                   borderRadius: BorderRadius.circular(14),
                                 ),

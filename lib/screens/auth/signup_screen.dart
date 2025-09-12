@@ -82,87 +82,114 @@ class _SignupScreenState extends State<SignupScreen> {
                           TextFormField(
                             controller: _usernameController,
                             cursorColor: Colors.black87,
-                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+                            style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w700),
                             decoration: InputDecoration(
-                              labelText: 'User ID',
-                              labelStyle: const TextStyle(color: Colors.black54),
+                              labelText: 'Email',
+                              labelStyle:
+                                  const TextStyle(color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black26),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black87),
+                                borderSide:
+                                    const BorderSide(color: Colors.black87),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                             ),
-                            validator: (value) => value!.isEmpty ? 'Please enter a User ID' : null,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter a User ID'
+                                : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _nameController,
                             cursorColor: Colors.black87,
-                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+                            style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w700),
                             decoration: InputDecoration(
                               labelText: 'Name',
-                              labelStyle: const TextStyle(color: Colors.black54),
+                              labelStyle:
+                                  const TextStyle(color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black26),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black87),
+                                borderSide:
+                                    const BorderSide(color: Colors.black87),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                             ),
-                            validator: (value) => value!.isEmpty ? 'Please enter your name' : null,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter your name'
+                                : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _ageController,
                             cursorColor: Colors.black87,
-                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+                            style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w700),
                             decoration: InputDecoration(
                               labelText: 'Age',
-                              labelStyle: const TextStyle(color: Colors.black54),
+                              labelStyle:
+                                  const TextStyle(color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black26),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black87),
+                                borderSide:
+                                    const BorderSide(color: Colors.black87),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                             ),
                             keyboardType: TextInputType.number,
-                            validator: (value) => value!.isEmpty ? 'Please enter your age' : null,
+                            validator: (value) =>
+                                value!.isEmpty ? 'Please enter your age' : null,
                           ),
                           const SizedBox(height: 12),
                           TextFormField(
                             controller: _passwordController,
                             obscureText: true,
                             cursorColor: Colors.black87,
-                            style: const TextStyle(color: Colors.black87, fontWeight: FontWeight.w700),
+                            style: const TextStyle(
+                                color: Colors.black87,
+                                fontWeight: FontWeight.w700),
                             decoration: InputDecoration(
                               labelText: 'Password',
-                              labelStyle: const TextStyle(color: Colors.black54),
+                              labelStyle:
+                                  const TextStyle(color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black26),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black87),
+                                borderSide:
+                                    const BorderSide(color: Colors.black87),
                               ),
                               filled: true,
                               fillColor: Colors.white,
                             ),
-                            validator: (value) => value!.isEmpty ? 'Please enter a password' : null,
+                            validator: (value) => value!.isEmpty
+                                ? 'Please enter a password'
+                                : null,
                           ),
                           const SizedBox(height: 12),
                           DropdownButtonFormField<String>(
@@ -172,7 +199,9 @@ class _SignupScreenState extends State<SignupScreen> {
                             items: ['Client', 'Admin'].map((String value) {
                               return DropdownMenuItem<String>(
                                 value: value,
-                                child: Text(value, style: const TextStyle(color: Colors.black87)),
+                                child: Text(value,
+                                    style:
+                                        const TextStyle(color: Colors.black87)),
                               );
                             }).toList(),
                             onChanged: (newValue) {
@@ -182,14 +211,17 @@ class _SignupScreenState extends State<SignupScreen> {
                             },
                             decoration: InputDecoration(
                               labelText: 'Role',
-                              labelStyle: const TextStyle(color: Colors.black54),
+                              labelStyle:
+                                  const TextStyle(color: Colors.black54),
                               enabledBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black26),
+                                borderSide:
+                                    const BorderSide(color: Colors.black26),
                               ),
                               focusedBorder: OutlineInputBorder(
                                 borderRadius: BorderRadius.circular(12),
-                                borderSide: const BorderSide(color: Colors.black87),
+                                borderSide:
+                                    const BorderSide(color: Colors.black87),
                               ),
                               filled: true,
                               fillColor: Colors.white,
