@@ -1,6 +1,12 @@
 import 'package:flutter/material.dart';
+import 'package:rakshapath/services/storageService.dart';
 
-class ClientHomeDashboard extends StatelessWidget {
+class ClientHomeDashboard extends StatefulWidget {
+  @override
+  State<ClientHomeDashboard> createState() => _ClientHomeDashboardState();
+}
+
+class _ClientHomeDashboardState extends State<ClientHomeDashboard> {
   final List<Map<String, String>> recommendations = [
     {
       'title': 'Goa Beach',
@@ -103,7 +109,8 @@ class ClientHomeDashboard extends StatelessWidget {
                                   fontWeight: FontWeight.w800,
                                   shadows: [
                                     Shadow(
-                                      color: Colors.black.withValues(alpha: 0.3),
+                                      color:
+                                          Colors.black.withValues(alpha: 0.3),
                                       offset: Offset(0, 1),
                                       blurRadius: 2,
                                     ),
@@ -157,8 +164,8 @@ class ClientHomeDashboard extends StatelessWidget {
             SizedBox(height: 18),
             Card(
               elevation: 6,
-              shape:
-                  RoundedRectangleBorder(borderRadius: BorderRadius.circular(18)),
+              shape: RoundedRectangleBorder(
+                  borderRadius: BorderRadius.circular(18)),
               child: ListTile(
                 contentPadding: EdgeInsets.all(16),
                 leading: Icon(Icons.warning_amber_rounded,
@@ -181,15 +188,26 @@ class ClientHomeDashboard extends StatelessWidget {
               ),
             ),
             SizedBox(height: 18),
-            Text('Popular near you 🔥',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Row(
+              children: [
+                Text('Popular near you 🔥',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Spacer()
+              ],
+            ),
             SizedBox(height: 12),
             ...recommendations
-                .map((r) => _placeCard(r, context, screenWidth, screenHeight))
-                .toList(),
+                .map((r) => _placeCard(r, context, screenWidth, screenHeight)),
             SizedBox(height: 18),
-            Text('Quick SOS Contacts',
-                style: TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+            Row(
+              children: [
+                Text('Quick SOS Contacts',
+                    style:
+                        TextStyle(fontSize: 16, fontWeight: FontWeight.bold)),
+                Spacer()
+              ],
+            ),
             SizedBox(height: 8),
             _contactCard('Local Police', '100', Icons.local_police),
             SizedBox(height: 8),

@@ -1,6 +1,7 @@
 import 'dart:ui';
 import 'package:flutter/material.dart';
-import '../auth/storage.dart'; // ✅ import your secure storage service
+import '../../services/storageService.dart';
+import '../../services/locationService.dart';
 
 class LoginScreen extends StatefulWidget {
   const LoginScreen({super.key});
@@ -11,9 +12,37 @@ class LoginScreen extends StatefulWidget {
 
 class _LoginScreenState extends State<LoginScreen> {
   final TextEditingController _idController = TextEditingController();
-  final storage = SecureStorageService(); // ✅ instance of storage
+  final SecureStorageService storage = SecureStorageService();
+  final LocationService locationService = LocationService();
+
   bool _isLogging = false;
 
+  @override
+  void initState() {
+    super.initState();
+    _checkAndSaveLocation();
+  }
+
+  /// ✅ Silently checks and saves location if possible
+  Future<void> _checkAndSaveLocation() async {
+    try {
+      final locationData = await locationService.getCurrentLocation();
+
+      if (locationData != null &&
+          locationData.latitude != null &&
+          locationData.longitude != null) {
+        await storage.saveLocation(
+          locationData.latitude!,
+          locationData.longitude!,
+        );
+      }
+      // ❌ No UI feedback if denied or error
+    } catch (_) {
+      // Ignore silently
+    }
+  }
+
+  /// ✅ Handles login flow
   Future<void> _login() async {
     final userId = _idController.text.trim();
     if (userId.isEmpty) {
@@ -25,12 +54,11 @@ class _LoginScreenState extends State<LoginScreen> {
 
     setState(() => _isLogging = true);
     await Future.delayed(const Duration(milliseconds: 700));
-    setState(() => _isLogging = false);
 
-    // ✅ Save username
     await storage.saveUsername(userId);
 
-    // ✅ Navigate
+    setState(() => _isLogging = false);
+
     if (userId.toLowerCase().contains('admin')) {
       Navigator.pushReplacementNamed(context, '/admin');
     } else {
@@ -45,7 +73,7 @@ class _LoginScreenState extends State<LoginScreen> {
     return Scaffold(
       body: Stack(
         children: [
-          // Background image
+          // Background
           SizedBox.expand(
             child: Image.asset(
               'assets/t3.jpg',
@@ -53,7 +81,7 @@ class _LoginScreenState extends State<LoginScreen> {
             ),
           ),
 
-          // Glassmorphic login container
+          // Glassmorphic login card
           Align(
             alignment: Alignment.bottomCenter,
             child: ClipRRect(
@@ -66,10 +94,7 @@ class _LoginScreenState extends State<LoginScreen> {
                 child: Container(
                   width: double.infinity,
                   height: size.height * 0.45,
-                  decoration: BoxDecoration(
-                    color: Colors.white.withValues(alpha: 0.2),
-                    border: Border.all(width: 0, color: Colors.transparent),
-                  ),
+                  color: Colors.white.withOpacity(0.2),
                   child: Center(
                     child: Container(
                       width: size.width * 0.82,
@@ -82,7 +107,7 @@ class _LoginScreenState extends State<LoginScreen> {
                         borderRadius: BorderRadius.circular(size.width * 0.06),
                         boxShadow: [
                           BoxShadow(
-                            color: Colors.black.withValues(alpha: 0.1),
+                            color: Colors.black.withOpacity(0.1),
                             blurRadius: 10,
                             spreadRadius: 2,
                           ),
@@ -92,7 +117,6 @@ class _LoginScreenState extends State<LoginScreen> {
                         mainAxisSize: MainAxisSize.min,
                         crossAxisAlignment: CrossAxisAlignment.start,
                         children: [
-                          // Header text
                           Text(
                             "Enter USER ID",
                             style: TextStyle(
@@ -103,8 +127,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.02),
-
-                          // User ID input
                           TextField(
                             controller: _idController,
                             decoration: InputDecoration(
@@ -138,8 +160,6 @@ class _LoginScreenState extends State<LoginScreen> {
                             ),
                           ),
                           SizedBox(height: size.height * 0.025),
-
-                          // Continue button
                           SizedBox(
                             width: double.infinity,
                             child: ElevatedButton(

@@ -5,7 +5,7 @@ import 'client_screens/map_view.dart';
 import 'client_screens/profile.dart';
 import 'client_screens/settings.dart';
 import 'client_screens/sos_view.dart';
-import '../auth/storage.dart';
+import '../../services/storageService.dart';
 
 class ClientHome extends StatefulWidget {
   const ClientHome({super.key});
@@ -71,9 +71,10 @@ class _ClientHomeState extends State<ClientHome> {
         ),
 
         // --- MODIFICATION END ---
-        iconTheme: IconThemeData(color: Colors.white),
         flexibleSpace: Container(
-          decoration: BoxDecoration(color: Colors.transparent),
+          decoration: BoxDecoration(
+            color: const Color.fromARGB(255, 240, 239, 239),
+          ),
         ),
         backgroundColor: Colors.transparent,
         elevation: 0,
@@ -81,7 +82,7 @@ class _ClientHomeState extends State<ClientHome> {
       // body: _screens[_selectedIndex],
       body: Container(
         decoration: BoxDecoration(
-          color: Colors.white,
+          color: const Color.fromARGB(255, 240, 239, 239),
         ),
         child: _screens[_selectedIndex],
       ),
